@@ -17,3 +17,10 @@ services:
       - "8080:80"
     volumes:
       - ./demo_targets:/usr/share/nginx/html:ro
+
+  web-dashboard:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
