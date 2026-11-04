@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && pip install --no-cache-dir playwright \
+    && playwright install --with-deps chromium \
+    && groupadd -g 10001 sandbox \
+    && useradd -u 10001 -g sandbox -m sandbox
+
+COPY worker_agent.py .
+RUN chown -R 10001:10001 /app
+
+USER 10001:10001
+
+ENTRYPOINT ["python3", "worker_agent.py"]
